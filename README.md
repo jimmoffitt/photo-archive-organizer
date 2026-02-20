@@ -405,16 +405,4 @@ If you already have albums in Google Photos and want to avoid duplicates:
 
 Personal use project.
 
----
-
-## Credits
-
-Built with:
-- Python 3.8+
-- Google Photos API
-- python-dotenv
-- pathlib
-
----
-
 **Need help?** Check the inline comments in the code - they explain each step!
