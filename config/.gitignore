@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+.env.*
+!.env.example
+
+# Mac
+.DS_Store
+
+# Logs
+*.log
+
+#Credentials
+credentials.json
+
+# Large media files
+archives/
+*.jpg
+*.jpeg
+*.png
+*.avi
+lookups/
+
+# IDE
+.vscode/
+.idea/

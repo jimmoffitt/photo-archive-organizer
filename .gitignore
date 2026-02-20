@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+archives/
+organized_photos/
+organized_videos/
+photo_work/
+
+# Config and secrets (actual files in config/)
+config/.env.local
+config/credentials.json
+config/token.pickle
+
+# Cache
+cache/
+
+# Logs
+logs/
+
+# Ignore all .env files except .env.example
+.env
+.env.local
+.env.*.local
