@@ -36,7 +36,7 @@ class PhotoFile:
     album_title: str
     new_filename: str
     archive_type: str  # Archive identifier (e.g., 'slides', 'portable_drive')
-    album_prefix: str = ""  # Optional prefix for Google Photos album title (e.g., 'NZ', 'Ingela')
+    album_prefix: str = ""  # Optional prefix for Google Photos album title (e.g., 'NZ', 'Family')
     date_stamp: Optional[str] = None
     size_bytes: int = 0  # File size in bytes
     
@@ -169,7 +169,7 @@ class PortableDriveParser:
         """
         Initialize parser
         Args:
-            album_prefix: Optional prefix for Google Photos album titles (e.g., 'Ingela')
+            album_prefix: Optional prefix for Google Photos album titles (e.g., 'Family')
         """
         self.album_prefix = album_prefix
     
@@ -220,7 +220,7 @@ class PortableDriveParser:
     
     def simplify_filename(self, original_name: str, extension: str) -> str:
         """
-        Simplify filename according to Ingela naming rules.
+        Simplify filename according to `portable_drive` naming rules.
         
         Rules applied in order:
         1. Drop year prefixes: "2006 49 IMG_1081" → "49 IMG_1081"
@@ -245,7 +245,8 @@ class PortableDriveParser:
         - "2010 - 171.JPG" → "photo_171.jpg"
         - "IMG_6129.JPG" → "photo_6129.jpg"
         - "17w.jpg" → "photo_17w.jpg"
-        - "Willow in swing, 20.5 mo..jpg" → "Willow in swing, 20.5 mo..jpg"
+        # Huh? 
+        - "Jim in swing, 20.5 mo..jpg" → "Jim in swing, 20.5 mo..jpg"
         """
         name = original_name
         
@@ -307,11 +308,11 @@ class FileOrganizer:
     def organize_photo(self, photo: PhotoFile) -> Path:
         """
         Organize a photo into the local folder structure.
-        Creates archive-specific subfolders: organized_photos/ingela/ or organized_photos/slides/
+        Creates archive-specific subfolders: organized_photos/portable_drive/ or organized_photos/slides/
         
         Returns the destination path
         """
-        # Create archive-specific subfolder (ingela or slides)
+        # Create archive-specific subfolder (portable_drive or slides)
         archive_folder = self.organized_dir / photo.archive_type
         album_folder = archive_folder / photo.album_name
         dest_path = album_folder / photo.new_filename
@@ -632,7 +633,7 @@ def main():
     )
     parser.add_argument(
         '--archive',
-        choices=['slides', 'ingela', 'both'],
+        choices=['slides', 'portable_drive', 'both'],
         default='both',
         help='Which archive to process'
     )
@@ -653,7 +654,7 @@ def main():
     
     # Get source paths from environment
     slides_source = Path(os.getenv('SLIDES_SOURCE_PATH', './slides'))
-    ingela_source = Path(os.getenv('INGELA_SOURCE_PATH', './ingela'))
+    portable_drive_source = Path(os.getenv('PORTABLE_DRIVE_SOURCE_PATH', './'))
     
     all_photos = {}
     
@@ -663,9 +664,9 @@ def main():
             slides_photos = processor.process_slides_archive(slides_source)
             all_photos.update(slides_photos)
         
-        if args.archive in ['ingela', 'both']:
-            ingela_photos = processor.process_ingela_archive(ingela_source)
-            all_photos.update(ingela_photos)
+        if args.archive in ['portable_drive', 'both']:
+            portable_drive_photos = processor.process_portable_drive_archive(portable_drive_source)
+            all_photos.update(portable_drive_photos)
     
     # Stage 2: Organize files
     if args.stage in ['organize', 'all']:
